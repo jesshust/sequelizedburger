@@ -1,14 +1,17 @@
 var express = require('express');  
 var router = express.Router(); 
-
+var burger = require('../models/burgers.js'); 
+var method = require('method-override'); 
+var bodyParser = require('body-parser'); 
 var models = require('../models'); 
+
 
 router.get('/', function(req, res){
 	res.redirect('/burgers')
 }); 
 
 router.get('/burgers', function(req, res){
-	models.burgers.selectAll().then(function(data){
+	models.burgers.selectAll(function(data){
 		var hbsObject = { burgers : data }; 
 		res.render('index', hbsObject); 
 	}); 
