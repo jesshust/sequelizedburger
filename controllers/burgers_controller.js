@@ -1,34 +1,36 @@
-var express = require('express');  
+var express = require('express'); 
 var router = express.Router(); 
-var burger = require('../models/burgers.js'); 
-var method = require('method-override'); 
 var bodyParser = require('body-parser'); 
+var methodOverride = require('method-override'); 
 var models = require('../models'); 
 
 
-router.get('/', function(req, res){
+router.get('/', function (req, res){
 	res.redirect('/burgers')
 }); 
 
 router.get('/burgers', function(req, res){
-	models.burgers.selectAll(function(data){
-		var hbsObject = { burgers : data }; 
-		res.render('index', hbsObject); 
-	}); 
+	models.burgers.findAll().then(function (data) {
+		res.render('index', {burgers : data}); 
+		}); 
 }); 
 
-router.post('/burgers/create', function(req, res){
-	models.burgers.insertOne(['burger_name', 'devoured'], [req.body.name, 0], function(data){
+router.post('/burgers/create', function(req, res) {
+	models.burgers.create({burger_name: req.body.name, devoured: 0}).then(function() {
 		res.redirect('/burgers'); 
-	}); 
+		}); 
 }); 
 
 router.put('/burgers/update/:id', function(req,res) {
-	var condition = 'id = ' + req.params.id;
 
-	console.log('condition', condition);
+	models.burgers.update( {'devoured' : req.body.devoured }, {where: {id:req.params.id}}).then(function(){
+		res.redirect('/burgers');
+	});
+});
 
-	models.burgers.updateOne({'devoured' : 1}, condition, function(data){
+router.delete('/burgers/delete/:id', function (req, res) {
+
+	models.burger.destroy({where: {id:req.params.id}}).then(function() {
 		res.redirect('/burgers');
 	});
 });

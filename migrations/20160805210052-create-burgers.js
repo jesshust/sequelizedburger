@@ -6,7 +6,9 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER, 
+        onUpdate: 'cascade', 
+        onDelete: 'cascade'
       },
       burger_name: {
         type: Sequelize.STRING

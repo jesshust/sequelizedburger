@@ -15,13 +15,13 @@ module.exports = {
 
     return queryInterface.bulkInsert('burgers', [{
       burger_name: 'Little Swiss Bunshine Burger', 
-      devoured: true
+      devoured: false
     }, {
       burger_name: 'Take Me Out to the Burger', 
-      devoured: true
+      devoured: false
     }, {
       burger_name: 'Teriyaki a New One Burger', 
-      devoured: true
+      devoured: false
     }], {}); 
   },
 
